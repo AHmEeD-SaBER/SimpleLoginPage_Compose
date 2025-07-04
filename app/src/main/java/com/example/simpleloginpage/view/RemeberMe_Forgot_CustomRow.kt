@@ -1,5 +1,6 @@
 package com.example.simpleloginpage.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +21,11 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun RememberMe_Forgot_CustomRow() {
+fun RememberMe_Forgot_CustomRow(
+    rememberMe: Boolean = false,
+    onRememberMeChange: (Boolean) -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {}
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -31,8 +36,8 @@ fun RememberMe_Forgot_CustomRow() {
             horizontalArrangement = Arrangement.Start,
         ) {
             Checkbox(
-                checked = false,
-                onCheckedChange = {},
+                checked = rememberMe,
+                onCheckedChange = { onRememberMeChange(it) },
                 colors = CheckboxDefaults.colors(
                     checkedColor = Color(0xffffc122),
                     uncheckedColor = Color(0xffffc122)
@@ -47,7 +52,8 @@ fun RememberMe_Forgot_CustomRow() {
         }
         Text(
             "Forgot Password?",
-            style = TextStyle(fontSize = 15.sp)
+            style = TextStyle(fontSize = 15.sp),
+            modifier = Modifier.clickable { onForgotPasswordClick() }
         )
     }
 }
