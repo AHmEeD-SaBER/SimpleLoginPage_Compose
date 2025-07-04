@@ -13,15 +13,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun CustomTextField(
     value: String,
+    isError:Boolean = false,
+    errorMessage: String? = null,
     onValueChange: (String) -> Unit,
     label: String,
     leadingIcon: @Composable (() -> Unit)? = null,
-    isPassword: Boolean = false
+    trailingIcon: @Composable (() -> Unit)? = null,
+    isPassword: Boolean = false,
+    passwordVisible: Boolean = false
 ) {
     TextField(
         value = value,
@@ -30,15 +36,8 @@ fun CustomTextField(
         modifier = Modifier.fillMaxWidth(),
         textStyle = TextStyle(fontSize = 20.sp, color = Color.Black),
         leadingIcon = leadingIcon,
-        trailingIcon = if (isPassword) {
-            {
-                Icon(
-                    imageVector = Icons.Filled.VisibilityOff,
-                    contentDescription = "Show Password",
-                    modifier = Modifier.scale(0.7f)
-                )
-            }
-        } else null,
+        trailingIcon = trailingIcon,
+        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Color.Transparent,
             focusedContainerColor = Color.Transparent,
@@ -53,6 +52,14 @@ fun CustomTextField(
             unfocusedTrailingIconColor = Color.Black,
             focusedTextColor = Color.Black,
             unfocusedTextColor = Color.Black
-        )
+        ),
+        isError = isError,
     )
+    if(isError) {
+        Text(
+            text = errorMessage ?: "Error",
+            style = TextStyle(color = Color.Red, fontSize = 12.sp),
+            modifier = Modifier.scale(0.8f)
+        )
+    }
 }
