@@ -30,9 +30,7 @@ import com.example.simpleloginpage.viewmodels.MainViewModel
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier,
     viewModel: MainViewModel = viewModel(),
-    onLoginSuccess: () -> Unit = {},
     onNavigateTo: () -> Unit = {}
 ) {
     Column {
@@ -44,14 +42,12 @@ fun LoginScreen(
                 alignment = Alignment.TopStart
             )
             CustomAppBar(
-                barModifier = Modifier.fillMaxWidth(),
-                iconModifier = Modifier
-                    .padding(30.dp, 50.dp)
-                    .size(50.dp)
-                    .scale(0.8f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 16.dp),
                 logo = R.drawable.logo,
                 actionIcon = R.drawable.menu,
-                onClick = { /* Handle click */ }
+                onMenuClick = { /* Handle click */ }
             )
             Box(
                 contentAlignment = Alignment.Center,
@@ -109,10 +105,7 @@ fun LoginScreen(
                     CustomBtn(
                         value = if (viewModel.isLoading) "LOADING..." else "LOGIN",
                         onCLick = {
-                            viewModel.login(
-                                onSuccess = onLoginSuccess,
-                                onError = { /* Show error message */ }
-                            )
+                            viewModel.login()
                         },
                     )
                     Spacer(modifier = Modifier.height(20.dp))
