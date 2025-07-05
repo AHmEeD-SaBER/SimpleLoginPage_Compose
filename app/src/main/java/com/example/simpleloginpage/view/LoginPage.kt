@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -17,6 +16,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -30,9 +31,19 @@ import com.example.simpleloginpage.viewmodels.MainViewModel
 
 @Composable
 fun LoginScreen(
+    modifier: Modifier = Modifier,
     viewModel: MainViewModel = viewModel(),
+    onLoginSuccess: () -> Unit = {},
     onNavigateTo: () -> Unit = {}
 ) {
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val isPasswordVisible by viewModel.isPasswordVisible.collectAsState()
+    val rememberMe by viewModel.rememberMe.collectAsState()
+    val emailError by viewModel.emailError.collectAsState()
+    val passwordError by viewModel.passwordError.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+
     Column {
         Box{
             ImageSurfaces(
@@ -59,31 +70,31 @@ fun LoginScreen(
                     Text("Login", style = TextStyle(fontSize = 45.sp, fontWeight = FontWeight(900)))
                     Spacer(modifier = Modifier.height(30.dp))
                     CustomTextField(
-                        value = viewModel.email,
-                        isError = viewModel.emailError != null,
-                        errorMessage = viewModel.emailError,
+                        value = email,
+                        isError = emailError != null,
+                        errorMessage = emailError,
                         onValueChange = { viewModel.updateEmail(it) },
                         label = "Email",
                         leadingIcon = { Icon(Icons.Filled.Email, contentDescription = "Email Icon") }
                     )
                     Spacer(modifier = Modifier.height(30.dp))
                     CustomTextField(
-                        value = viewModel.password,
-                        isError = viewModel.passwordError != null,
-                        errorMessage = viewModel.passwordError,
+                        value = password,
+                        isError = passwordError != null,
+                        errorMessage = passwordError,
                         onValueChange = { viewModel.updatePassword(it) },
                         label = "Password",
                         leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = "Lock Icon") },
                         isPassword = true,
-                        passwordVisible = viewModel.isPasswordVisible,
+                        passwordVisible = isPasswordVisible,
                         trailingIcon = {
                             IconButton(onClick = { viewModel.togglePasswordVisibility() }) {
                                 Icon(
-                                    imageVector = if (viewModel.isPasswordVisible)
+                                    imageVector = if (isPasswordVisible)
                                                     Icons.Filled.Visibility
                                                   else
                                                     Icons.Filled.VisibilityOff,
-                                    contentDescription = if (viewModel.isPasswordVisible)
+                                    contentDescription = if (isPasswordVisible)
                                                            "Hide Password"
                                                          else
                                                            "Show Password",
@@ -94,7 +105,7 @@ fun LoginScreen(
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     RememberMe_Forgot_CustomRow(
-                        rememberMe = viewModel.rememberMe,
+                        rememberMe = rememberMe,
                         onRememberMeChange = { viewModel.toggleRememberMe() },
                         onForgotPasswordClick = { viewModel.forgotPassword(
                             onClick = { /* Show success message */ },
@@ -103,9 +114,12 @@ fun LoginScreen(
                     )
                     Spacer(modifier = Modifier.height(40.dp))
                     CustomBtn(
-                        value = if (viewModel.isLoading) "LOADING..." else "LOGIN",
+                        value = if (isLoading) "LOADING..." else "LOGIN",
                         onCLick = {
-                            viewModel.login()
+                            viewModel.login(
+                                onSuccess = onLoginSuccess,
+                                onError = { /* Show error message */ }
+                            )
                         },
                     )
                     Spacer(modifier = Modifier.height(20.dp))
