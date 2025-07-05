@@ -4,16 +4,14 @@ import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simpleloginpage.model.UserRepoImplementation
+import com.example.simpleloginpage.model.UserRepo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val userRepo = UserRepoImplementation()
+class MainViewModel(application: Application, private val userRepo: UserRepo): AndroidViewModel(application) {
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")
     private val _isPasswordVisible = MutableStateFlow(false)
@@ -87,7 +85,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 delay(1000)
                 _isLoading.value = false
-                userRepo.register(email.value,password.value)
+//                userRepo.register(email.value,password.value)
                 if(userRepo.login(email.value, password.value, rememberMe.value)) {
                     Toast.makeText(
                         getApplication<Application>().applicationContext,
