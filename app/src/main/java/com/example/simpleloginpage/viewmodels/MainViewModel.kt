@@ -1,14 +1,20 @@
 package com.example.simpleloginpage.viewmodels
 
+import android.app.Application
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.simpleloginpage.model.UserRepoImplementation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val userRepo = UserRepoImplementation()
+
     var email by mutableStateOf("")
         private set
 
@@ -74,24 +80,41 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun login(onSuccess: () -> Unit, onError: (String) -> Unit) {
+    fun login() {
         val isEmailValid = validateEmail()
         val isPasswordValid = validatePassword()
 
         if (!isEmailValid || !isPasswordValid) {
             return
         }
-
         viewModelScope.launch {
             isLoading = true
             try {
                 delay(1000)
                 isLoading = false
-                onSuccess()
-                clearForm()
+                userRepo.register(email,password)
+                if(userRepo.login(email, password, rememberMe)) {
+                    Toast.makeText(
+                        getApplication<Application>().applicationContext,
+                        "Login successful",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    clearForm()
+                }
+                else{
+                    Toast.makeText(
+                        getApplication<Application>().applicationContext,
+                        "Login failed: Invalid credentials",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } catch (e: Exception) {
                 isLoading = false
-                onError(e.message ?: "Unknown error occurred")
+                Toast.makeText(
+                    getApplication<Application>().applicationContext,
+                    "Login failed: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -101,7 +124,6 @@ class MainViewModel : ViewModel() {
             onError("Please enter a valid email address")
             return
         }
-
         viewModelScope.launch {
             isLoading = true
             try {
