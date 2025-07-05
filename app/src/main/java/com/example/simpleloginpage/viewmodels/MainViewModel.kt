@@ -2,103 +2,99 @@ package com.example.simpleloginpage.viewmodels
 
 import android.app.Application
 import android.widget.Toast
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpleloginpage.model.UserRepoImplementation
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val userRepo = UserRepoImplementation()
+    private val _email = MutableStateFlow("")
+    private val _password = MutableStateFlow("")
+    private val _isPasswordVisible = MutableStateFlow(false)
+    private val _rememberMe = MutableStateFlow(false)
+    private val _emailError = MutableStateFlow<String?>(null)
+    private val _passwordError = MutableStateFlow<String?>(null)
+    private val _isLoading = MutableStateFlow(false)
 
-    var email by mutableStateOf("")
-        private set
-
-    var password by mutableStateOf("")
-        private set
-
-    var isPasswordVisible by mutableStateOf(false)
-        private set
-
-    var rememberMe by mutableStateOf(false)
-        private set
-
-    var emailError by mutableStateOf<String?>(null)
-        private set
-
-    var passwordError by mutableStateOf<String?>(null)
-        private set
-
-    var isLoading by mutableStateOf(false)
-        private set
+    val email: StateFlow<String> = _email.asStateFlow()
+    val password: StateFlow<String> = _password.asStateFlow()
+    val isPasswordVisible: StateFlow<Boolean> = _isPasswordVisible.asStateFlow()
+    val rememberMe: StateFlow<Boolean> = _rememberMe.asStateFlow()
+    val emailError: StateFlow<String?> = _emailError.asStateFlow()
+    val passwordError: StateFlow<String?> = _passwordError.asStateFlow()
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     fun updateEmail(newEmail: String) {
-        email = newEmail
+        _email.value = newEmail
         validateEmail()
     }
 
     fun updatePassword(newPassword: String) {
-        password = newPassword
+        _password.value = newPassword
         validatePassword()
     }
 
     fun togglePasswordVisibility() {
-        isPasswordVisible = !isPasswordVisible
+        _isPasswordVisible.value = !_isPasswordVisible.value
     }
 
     fun toggleRememberMe() {
-        rememberMe = !rememberMe
+        _rememberMe.value = !_rememberMe.value
     }
 
     private fun validateEmail(): Boolean {
-        return if (email.isEmpty()) {
-            emailError = "Email cannot be empty"
+        return if (_email.value.isEmpty()) {
+            _emailError.value = "Email cannot be empty"
             false
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailError = "Invalid email format"
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(_email.value).matches()) {
+            _emailError.value = "Invalid email format"
             false
         } else {
-            emailError = null
+            _emailError.value = null
             true
         }
     }
 
     private fun validatePassword(): Boolean {
-        return if (password.isEmpty()) {
-            passwordError = "Password cannot be empty"
+        return if (_password.value.isEmpty()) {
+            _passwordError.value = "Password cannot be empty"
             false
-        } else if (password.length < 6) {
-            passwordError = "Password must be at least 6 characters"
+        } else if (_password.value.length < 6) {
+            _passwordError.value = "Password must be at least 6 characters"
             false
         } else {
-            passwordError = null
+            _passwordError.value = null
             true
         }
     }
 
-    fun login() {
+    fun login(onSuccess: () -> Unit, onError: (String) -> Unit) {
         val isEmailValid = validateEmail()
         val isPasswordValid = validatePassword()
 
         if (!isEmailValid || !isPasswordValid) {
             return
         }
+
         viewModelScope.launch {
-            isLoading = true
+            _isLoading.value = true
             try {
                 delay(1000)
-                isLoading = false
-                userRepo.register(email,password)
-                if(userRepo.login(email, password, rememberMe)) {
+                _isLoading.value = false
+                userRepo.register(email.value,password.value)
+                if(userRepo.login(email.value, password.value, rememberMe.value)) {
                     Toast.makeText(
                         getApplication<Application>().applicationContext,
                         "Login successful",
                         Toast.LENGTH_SHORT
                     ).show()
+                    onSuccess()
                     clearForm()
                 }
                 else{
@@ -109,7 +105,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     ).show()
                 }
             } catch (e: Exception) {
-                isLoading = false
+                _isLoading.value = false
                 Toast.makeText(
                     getApplication<Application>().applicationContext,
                     "Login failed: ${e.message}",
@@ -124,24 +120,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             onError("Please enter a valid email address")
             return
         }
+
         viewModelScope.launch {
-            isLoading = true
+            _isLoading.value = true
             try {
                 delay(1000)
-                isLoading = false
+                _isLoading.value = false
                 onClick()
             } catch (e: Exception) {
-                isLoading = false
+                _isLoading.value = false
                 onError(e.message ?: "Unknown error occurred")
             }
         }
     }
 
     private fun clearForm() {
-        email = ""
-        password = ""
-        isPasswordVisible = false
-        emailError = null
-        passwordError = null
+        _email.value = ""
+        _password.value = ""
+        _isPasswordVisible.value = false
+        _emailError.value = null
+        _passwordError.value = null
     }
 }
