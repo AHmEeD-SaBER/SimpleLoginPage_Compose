@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.simpleloginpage.ui.theme.OrangeMain
 
 
 @Composable
@@ -39,8 +40,9 @@ fun RememberMe_Forgot_CustomRow(
                 checked = rememberMe,
                 onCheckedChange = { onRememberMeChange(it) },
                 colors = CheckboxDefaults.colors(
-                    checkedColor = Color(0xffffc122),
-                    uncheckedColor = Color(0xffffc122)
+                    checkedColor = OrangeMain,
+                    uncheckedColor = OrangeMain,
+                    checkmarkColor = Color.Black
                 ),
                 modifier = Modifier.scale(0.7f).size(10.dp)
             )

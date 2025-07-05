@@ -1,10 +1,6 @@
 package com.example.simpleloginpage.view
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -16,6 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
+import com.example.simpleloginpage.ui.theme.OrangeMain
 
 @Composable
 fun CustomTextField(
@@ -41,13 +38,13 @@ fun CustomTextField(
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Color.Transparent,
             focusedContainerColor = Color.Transparent,
-            unfocusedIndicatorColor = Color(0xffffc122),
-            focusedIndicatorColor = Color(0xffffc122),
-            unfocusedLabelColor = Color(0xffffc122),
-            focusedLabelColor = Color(0xffffc122),
-            unfocusedLeadingIconColor = Color(0xffffc122),
-            focusedLeadingIconColor = Color(0xffffc122),
-            cursorColor = Color(0xffffc122),
+            unfocusedIndicatorColor = OrangeMain,
+            focusedIndicatorColor = OrangeMain,
+            unfocusedLabelColor = OrangeMain,
+            focusedLabelColor = OrangeMain,
+            unfocusedLeadingIconColor = OrangeMain,
+            focusedLeadingIconColor = OrangeMain,
+            cursorColor = OrangeMain,
             focusedTrailingIconColor = Color.Black,
             unfocusedTrailingIconColor = Color.Black,
             focusedTextColor = Color.Black,

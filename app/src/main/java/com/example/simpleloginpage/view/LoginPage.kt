@@ -50,6 +50,7 @@ fun LoginScreen(
                 surface1 = R.drawable.bot_surface,
                 surface2 = R.drawable.top_surface,
                 surface3 = R.drawable.darken_surface,
+                surface4 = R.drawable.top_darken_surface,
                 alignment = Alignment.TopStart
             )
             CustomAppBar(
@@ -58,7 +59,7 @@ fun LoginScreen(
                     .padding(horizontal = 16.dp, vertical = 16.dp),
                 logo = R.drawable.logo,
                 actionIcon = R.drawable.menu,
-                onMenuClick = { /* Handle click */ }
+                onMenuClick = {}
             )
             Box(
                 contentAlignment = Alignment.Center,
@@ -108,8 +109,8 @@ fun LoginScreen(
                         rememberMe = rememberMe,
                         onRememberMeChange = { viewModel.toggleRememberMe() },
                         onForgotPasswordClick = { viewModel.forgotPassword(
-                            onClick = { /* Show success message */ },
-                            onError = { /* Show error message */ }
+                            onClick = {},
+                            onError = {}
                         )}
                     )
                     Spacer(modifier = Modifier.height(40.dp))
@@ -118,7 +119,7 @@ fun LoginScreen(
                         onCLick = {
                             viewModel.login(
                                 onSuccess = onLoginSuccess,
-                                onError = { /* Show error message */ }
+                                onError = {}
                             )
                         },
                     )
@@ -130,7 +131,10 @@ fun LoginScreen(
                     )
                 }
             }
-            ImageSurfaces(surface1 = R.drawable.bottom_bot_surface, alignment = Alignment.BottomEnd)
+            ImageSurfaces(
+                surface1 = R.drawable.bottom_bot_surface,
+                maxHeight = 0.64f,
+                alignment = Alignment.BottomEnd)
         }
     }
 }
