@@ -14,6 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.simpleloginpage.ui.theme.OrangeMain
 
 @Composable
 fun CustomBtn(
@@ -26,9 +27,9 @@ fun CustomBtn(
             .fillMaxWidth()
             .height(40.dp),
         colors = ButtonColors(
-            containerColor = Color(0xffffc122),
+            containerColor = OrangeMain,
             contentColor = Color.White,
-            disabledContainerColor = Color(0xffffc122).copy(alpha = 0.5f),
+            disabledContainerColor = OrangeMain.copy(alpha = 0.5f),
             disabledContentColor = Color.White.copy(alpha = 0.5f)
         ),
         shape = RoundedCornerShape(8.dp),

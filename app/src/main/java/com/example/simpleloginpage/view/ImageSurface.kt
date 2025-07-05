@@ -12,15 +12,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun ImageSurfaces(surface1: Int? = null , surface2: Int? = null, surface3: Int? = null, alignment: Alignment) {
+fun ImageSurfaces(
+    surface1: Int? = null,
+    surface2: Int? = null,
+    surface3: Int? = null,
+    surface4: Int? = null,
+    maxHeight: Float = 0.4f,
+    alignment: Alignment
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         if(surface1 != null)
             Image(
                 painter = painterResource(surface1),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(0.80f)
-                    .fillMaxHeight(0.4f)
+                    .fillMaxWidth(0.85f)
+                    .fillMaxHeight(maxHeight)
                     .align(alignment),
                 contentScale = ContentScale.FillBounds,
                 alignment = alignment
@@ -31,7 +38,7 @@ fun ImageSurfaces(surface1: Int? = null , surface2: Int? = null, surface3: Int? 
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth(0.70f)
-                    .fillMaxHeight(0.32f)
+                    .fillMaxHeight(0.35f)
                     .align(alignment),
                 contentScale = ContentScale.FillBounds,
                 alignment =alignment
@@ -43,6 +50,17 @@ fun ImageSurfaces(surface1: Int? = null , surface2: Int? = null, surface3: Int? 
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fillMaxHeight(0.4f)
+                    .align(alignment),
+                contentScale = ContentScale.FillBounds,
+                alignment = alignment
+            )
+        if(surface4 != null)
+            Image(
+                painter = painterResource(surface4),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth(0.80f)
                     .fillMaxHeight(0.4f)
                     .align(alignment),
                 contentScale = ContentScale.FillBounds,
