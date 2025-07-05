@@ -28,13 +28,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.viewmodels.MainViewModel
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import com.example.simpleloginpage.model.UserRepoImplementation
+import com.example.simpleloginpage.viewmodels.ViewModelFactory
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier,
-    viewModel: MainViewModel = viewModel(),
-    onLoginSuccess: () -> Unit = {},
-    onNavigateTo: () -> Unit = {}
+    viewModel: MainViewModel = viewModel(
+        factory = ViewModelFactory(
+            application = LocalContext.current.applicationContext as Application,
+            userRepo = UserRepoImplementation()
+        )
+    ),
 ) {
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
@@ -118,7 +124,7 @@ fun LoginScreen(
                         value = if (isLoading) "LOADING..." else "LOGIN",
                         onCLick = {
                             viewModel.login(
-                                onSuccess = onLoginSuccess,
+                                onSuccess = {},
                                 onError = {}
                             )
                         },
@@ -127,7 +133,7 @@ fun LoginScreen(
                     NavigationLine(
                         leadingValue = "Don't have an account?",
                         trailingValue = "Sign Up",
-                        onClick = onNavigateTo
+                        onClick = {}
                     )
                 }
             }
