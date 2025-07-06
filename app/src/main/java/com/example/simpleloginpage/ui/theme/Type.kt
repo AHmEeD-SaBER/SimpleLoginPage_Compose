@@ -10,21 +10,21 @@ import androidx.compose.ui.unit.sp
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight(800),
         fontSize = 45.sp,
         lineHeight = 52.sp,
         letterSpacing = 0.sp
     ),
     labelLarge = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight(800),
         fontSize = 20.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.sp
@@ -32,14 +32,14 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 28.sp,
+        fontSize = 15.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.5.sp
     ),
     bodySmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = 15.sp,
+        fontSize = 12.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.5.sp
     ),

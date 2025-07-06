@@ -1,4 +1,4 @@
-package com.example.simpleloginpage.view
+package com.example.simpleloginpage.view.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.ui.theme.Typography
 
@@ -33,7 +34,9 @@ fun NavigationLine(
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_micro)))
         Text(
             trailingValue,
-            style = Typography.labelSmall,
+            style = Typography.labelSmall.copy(
+                fontWeight = FontWeight.Bold
+            ),
             modifier = Modifier
                 .clickable {
                     onClick()

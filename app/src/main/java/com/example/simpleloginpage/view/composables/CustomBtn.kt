@@ -1,4 +1,4 @@
-package com.example.simpleloginpage.view
+package com.example.simpleloginpage.view.composables
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.ui.theme.OrangeMain
