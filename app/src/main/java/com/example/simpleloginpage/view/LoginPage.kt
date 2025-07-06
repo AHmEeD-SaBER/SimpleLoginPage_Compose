@@ -22,6 +22,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.viewmodels.LoginViewModel
 import android.app.Application
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.example.simpleloginpage.model.UserRepoImplementation
 import com.example.simpleloginpage.ui.theme.Typography
@@ -37,14 +40,15 @@ fun LoginScreen(
     viewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory(
             application = LocalContext.current.applicationContext as Application,
-            userRepo = UserRepoImplementation()
+            userRepo = UserRepoImplementation.getInstance()
         )
     ),
     onNavigateToSignup: () -> Unit = {}
 ) {
     val loginState by viewModel.loginState.collectAsState()
 
-    Column (verticalArrangement = Arrangement.Top){
+    Column (verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxSize().padding(
+        dimensionResource(R.dimen.content_padding))){
         Text(
             stringResource(R.string.login),
             style = Typography.titleLarge

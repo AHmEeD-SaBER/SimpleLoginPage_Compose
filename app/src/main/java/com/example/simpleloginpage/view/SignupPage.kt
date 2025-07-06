@@ -31,7 +31,10 @@ import com.example.simpleloginpage.view.composables.RememberMeRow
 import com.example.simpleloginpage.viewmodels.SignupViewModel
 import com.example.simpleloginpage.viewmodels.SignupViewModelFactory
 import android.app.Application
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import com.example.simpleloginpage.model.UserRepoImplementation
@@ -41,14 +44,16 @@ fun SignupPage(
     viewModel: SignupViewModel = viewModel(
         factory = SignupViewModelFactory(
             application = LocalContext.current.applicationContext as Application,
-            userRepo = UserRepoImplementation()
+            userRepo = UserRepoImplementation.getInstance()
         )
     ),
     onNavigateToLogin: () -> Unit = {}
 ) {
     val signupState by viewModel.signupState.collectAsState()
 
-    Column (verticalArrangement = Arrangement.Top, modifier = Modifier.offset(y = dimensionResource(R.dimen.content_margins))) {
+    Column (verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxSize().offset( y =
+        dimensionResource(R.dimen.content_margins)).padding(
+        dimensionResource(R.dimen.content_padding))) {
         Text(
             stringResource(R.string.create_account),
             style = Typography.titleLarge.copy(

@@ -1,8 +1,19 @@
 package com.example.simpleloginpage.model
 
-class UserRepoImplementation : UserRepo {
+class UserRepoImplementation private constructor() : UserRepo {
     private val users = mutableListOf<User>()
     private var loggedInUser: User? = null
+
+    companion object {
+        @Volatile
+        private var instance: UserRepoImplementation? = null
+
+        fun getInstance(): UserRepoImplementation {
+            return instance ?: synchronized(this) {
+                instance ?: UserRepoImplementation().also { instance = it }
+            }
+        }
+    }
 
     override fun login(email: String, password: String, rememberMe: Boolean): Boolean {
         val user = users.find { it.email == email && it.password == password }

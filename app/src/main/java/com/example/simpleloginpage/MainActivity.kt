@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,27 +46,20 @@ class MainActivity : ComponentActivity() {
                     actionIcon = R.drawable.menu,
                     onMenuClick = {}
                 )
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.content_padding))
 
-                ) {
-
-                    NavHost(navController = navController, startDestination = Routes.LOGIN) {
-                        composable(Routes.LOGIN) {
-                            LoginScreen(
-                                onNavigateToSignup = { navController.navigate("signup") }
-                            )
-                        }
-                        composable(Routes.SIGNUP) {
-                            SignupPage(
-                                onNavigateToLogin = { navController.navigate("login") }
-                            )
-                        }
+                NavHost(navController = navController, startDestination = Routes.LOGIN) {
+                    composable(Routes.LOGIN) {
+                        LoginScreen(
+                            onNavigateToSignup = { navController.navigate("signup") }
+                        )
+                    }
+                    composable(Routes.SIGNUP) {
+                        SignupPage(
+                            onNavigateToLogin = { navController.navigate("login") }
+                        )
                     }
                 }
+
                 BackgroundDecoration(
                     surface1 = R.drawable.bottom_bot_surface,
                     maxHeight = Constants.BG_BOTTOM_SURFACE_HEIGHT,
