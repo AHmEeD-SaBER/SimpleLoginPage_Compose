@@ -1,6 +1,7 @@
 package com.example.simpleloginpage.viewmodels
 
 import android.app.Application
+import android.util.Patterns
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -50,7 +51,7 @@ class MainViewModel(application: Application, private val userRepo: UserRepo): A
         return if (_email.value.isEmpty()) {
             _emailError.value = "Email cannot be empty"
             false
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(_email.value).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(_email.value).matches()) {
             _emailError.value = "Invalid email format"
             false
         } else {
