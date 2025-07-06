@@ -10,11 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.simpleloginpage.R
 import com.example.simpleloginpage.ui.theme.OrangeMain
+import com.example.simpleloginpage.ui.theme.Typography
 
 @Composable
 fun CustomBtn(
@@ -25,21 +25,20 @@ fun CustomBtn(
         onClick = onCLick,
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp),
+            .height(dimensionResource(R.dimen.button_height)),
         colors = ButtonColors(
             containerColor = OrangeMain,
             contentColor = Color.White,
             disabledContainerColor = OrangeMain.copy(alpha = 0.5f),
             disabledContentColor = Color.White.copy(alpha = 0.5f)
         ),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner_radius)),
         contentPadding = PaddingValues(0.dp)
     )
     {
-
         Text(
             value,
-            style = TextStyle(fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight(800))
+            style = Typography.labelLarge.copy(color = Color.Black)
         )
     }
 }

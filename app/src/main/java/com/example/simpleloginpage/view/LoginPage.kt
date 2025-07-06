@@ -21,16 +21,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.viewmodels.MainViewModel
 import android.app.Application
 import androidx.compose.ui.platform.LocalContext
 import com.example.simpleloginpage.model.UserRepoImplementation
+import com.example.simpleloginpage.ui.theme.Typography
+import com.example.simpleloginpage.util.Constants
 import com.example.simpleloginpage.viewmodels.ViewModelFactory
 
 @Composable
@@ -42,17 +42,11 @@ fun LoginScreen(
         )
     ),
 ) {
-    val email by viewModel.email.collectAsState()
-    val password by viewModel.password.collectAsState()
-    val isPasswordVisible by viewModel.isPasswordVisible.collectAsState()
-    val rememberMe by viewModel.rememberMe.collectAsState()
-    val emailError by viewModel.emailError.collectAsState()
-    val passwordError by viewModel.passwordError.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
+    val loginState by viewModel.loginState.collectAsState()
 
     Column {
         Box{
-            ImageSurfaces(
+            BackgroundDecoration(
                 surface1 = R.drawable.bot_surface,
                 surface2 = R.drawable.top_surface,
                 surface3 = R.drawable.darken_surface,
@@ -62,7 +56,10 @@ fun LoginScreen(
             CustomAppBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 16.dp),
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.app_bar_padding_horizontal),
+                        vertical = dimensionResource(R.dimen.app_bar_padding_vertical)
+                    ),
                 logo = R.drawable.logo,
                 actionIcon = R.drawable.menu,
                 onMenuClick = {}
@@ -71,71 +68,87 @@ fun LoginScreen(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(60.dp)
+                    .padding(dimensionResource(R.dimen.content_padding))
             ){
                 Column (verticalArrangement = Arrangement.Top){
-                    Text("Login", style = TextStyle(fontSize = 45.sp, fontWeight = FontWeight(900)))
-                    Spacer(modifier = Modifier.height(30.dp))
-                    CustomTextField(
-                        value = email,
-                        isError = emailError != null,
-                        errorMessage = emailError,
-                        onValueChange = { viewModel.updateEmail(it) },
-                        label = "Email",
-                        leadingIcon = { Icon(Icons.Filled.Email, contentDescription = "Email Icon") }
+                    Text(
+                        stringResource(R.string.login), 
+                        style = Typography.titleLarge
                     )
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_medium)))
                     CustomTextField(
-                        value = password,
-                        isError = passwordError != null,
-                        errorMessage = passwordError,
+                        value = loginState.email,
+                        isError = loginState.emailError != null,
+                        errorMessage = loginState.emailError,
+                        onValueChange = { viewModel.updateEmail(it) },
+                        label = stringResource(R.string.email),
+                        leadingIcon = { 
+                            Icon(
+                                Icons.Filled.Email, 
+                                contentDescription = stringResource(R.string.email_icon)
+                            ) 
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_medium)))
+                    CustomTextField(
+                        value = loginState.password,
+                        isError = loginState.passwordError != null,
+                        errorMessage = loginState.passwordError,
                         onValueChange = { viewModel.updatePassword(it) },
-                        label = "Password",
-                        leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = "Lock Icon") },
+                        label = stringResource(R.string.password),
+                        leadingIcon = { 
+                            Icon(
+                                Icons.Filled.Lock, 
+                                contentDescription = stringResource(R.string.lock_icon)
+                            ) 
+                        },
                         isPassword = true,
-                        passwordVisible = isPasswordVisible,
+                        passwordVisible = loginState.isPasswordVisible,
                         trailingIcon = {
                             IconButton(onClick = { viewModel.togglePasswordVisibility() }) {
                                 Icon(
-                                    imageVector = if (isPasswordVisible)
+                                    imageVector = if (loginState.isPasswordVisible)
                                                     Icons.Filled.Visibility
                                                   else
                                                     Icons.Filled.VisibilityOff,
-                                    contentDescription = if (isPasswordVisible)
-                                                           "Hide Password"
+                                    contentDescription = if (loginState.isPasswordVisible)
+                                                           stringResource(R.string.hide_password)
                                                          else
-                                                           "Show Password",
-                                    modifier = Modifier.scale(0.7f)
+                                                           stringResource(R.string.show_password),
+                                    modifier = Modifier.scale(Constants.ICON_SCALE_SMALL)
                                 )
                             }
                         }
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    RememberMe_Forgot_CustomRow(
-                        rememberMe = rememberMe,
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_small)))
+                    RememberMeRow(
+                        rememberMe = loginState.rememberMe,
                         onRememberMeChange = { viewModel.toggleRememberMe() },
                         onForgotPasswordClick = {}
                     )
-                    Spacer(modifier = Modifier.height(40.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_large)))
                     CustomBtn(
-                        value = if (isLoading) "LOADING..." else "LOGIN",
+                        value = if (loginState.isLoading)
+                                  stringResource(R.string.loading)
+                                else 
+                                  stringResource(R.string.login_button),
                         onCLick = {
                             viewModel.login(
                                 onSuccess = {}
                             )
                         },
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_small)))
                     NavigationLine(
-                        leadingValue = "Don't have an account?",
-                        trailingValue = "Sign Up",
+                        leadingValue = stringResource(R.string.no_account),
+                        trailingValue = stringResource(R.string.sign_up),
                         onClick = {}
                     )
                 }
             }
-            ImageSurfaces(
+            BackgroundDecoration(
                 surface1 = R.drawable.bottom_bot_surface,
-                maxHeight = 0.64f,
+                maxHeight = Constants.BG_BOTTOM_SURFACE_HEIGHT,
                 alignment = Alignment.BottomEnd)
         }
     }

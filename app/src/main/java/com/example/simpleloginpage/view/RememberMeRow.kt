@@ -15,14 +15,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import com.example.simpleloginpage.R
 import com.example.simpleloginpage.ui.theme.OrangeMain
+import com.example.simpleloginpage.ui.theme.Typography
+import com.example.simpleloginpage.util.Constants
 
 
 @Composable
-fun RememberMe_Forgot_CustomRow(
+fun RememberMeRow(
     rememberMe: Boolean = false,
     onRememberMeChange: (Boolean) -> Unit = {},
     onForgotPasswordClick: () -> Unit = {}
@@ -44,17 +46,19 @@ fun RememberMe_Forgot_CustomRow(
                     uncheckedColor = OrangeMain,
                     checkmarkColor = Color.Black
                 ),
-                modifier = Modifier.scale(0.7f).size(10.dp)
+                modifier = Modifier
+                    .scale(Constants.ICON_SCALE_SMALL)
+                    .size(dimensionResource(R.dimen.checkbox_size))
             )
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_tiny)))
             Text(
-                "Remember Me",
-                style = TextStyle(fontSize = 15.sp)
+                stringResource(R.string.remember_me),
+                style = Typography.bodySmall
             )
         }
         Text(
-            "Forgot Password?",
-            style = TextStyle(fontSize = 15.sp),
+            stringResource(R.string.forgot_password),
+            style = Typography.bodySmall,
             modifier = Modifier.clickable { onForgotPasswordClick() }
         )
     }

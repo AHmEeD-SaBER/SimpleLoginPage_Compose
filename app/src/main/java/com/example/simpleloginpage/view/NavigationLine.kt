@@ -11,16 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.simpleloginpage.ui.theme.OrangeMain
+import androidx.compose.ui.res.dimensionResource
+import com.example.simpleloginpage.R
+import com.example.simpleloginpage.ui.theme.Typography
 
 @Composable
 fun NavigationLine(
-    onClick: () -> Unit = { /* Default no-op */ },
+    onClick: () -> Unit = {},
     leadingValue: String,
     trailingValue: String
 ) {
@@ -31,22 +28,17 @@ fun NavigationLine(
     ) {
         Text(
             leadingValue,
-            style = TextStyle(fontSize = 18.sp,fontWeight = FontWeight(600))
+            style = Typography.bodyLarge
         )
-        Spacer(modifier = Modifier.width(1.dp))
+        Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_micro)))
         Text(
             trailingValue,
-            style = TextStyle(
-                fontSize = 18.sp,
-                color = OrangeMain,
-                textDecoration = TextDecoration.Underline,
-                fontWeight = FontWeight(600),
-            ),
+            style = Typography.labelSmall,
             modifier = Modifier
                 .clickable {
                     onClick()
                 }
-                .padding(5.dp)
+                .padding(dimensionResource(R.dimen.spacing_minimal))
         )
     }
 }
