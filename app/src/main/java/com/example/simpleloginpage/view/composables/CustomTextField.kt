@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.ui.theme.OrangeMain
 import com.example.simpleloginpage.ui.theme.Typography
@@ -31,7 +32,7 @@ fun CustomTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(label) },
+        label = { Text(text = label, style = Typography.bodyMedium) },
         modifier = Modifier.fillMaxWidth(),
         textStyle = Typography.bodyMedium.copy(color = Color.Black),
         leadingIcon = leadingIcon,
