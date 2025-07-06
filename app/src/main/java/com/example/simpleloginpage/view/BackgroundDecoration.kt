@@ -10,58 +10,59 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import com.example.simpleloginpage.util.Constants
 
 @Composable
-fun ImageSurfaces(
+fun BackgroundDecoration(
     surface1: Int? = null,
     surface2: Int? = null,
     surface3: Int? = null,
     surface4: Int? = null,
-    maxHeight: Float = 0.4f,
+    maxHeight: Float = Constants.BG_LARGE_HEIGHT,
     alignment: Alignment
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        if(surface1 != null)
+        if (surface1 != null)
             Image(
                 painter = painterResource(surface1),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(0.85f)
+                    .fillMaxWidth(Constants.BG_SURFACE_WIDTH_LARGE)
                     .fillMaxHeight(maxHeight)
                     .align(alignment),
                 contentScale = ContentScale.FillBounds,
                 alignment = alignment
             )
-        if(surface2 != null)
+        if (surface2 != null)
             Image(
                 painter = painterResource(surface2),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(0.70f)
-                    .fillMaxHeight(0.35f)
+                    .fillMaxWidth(Constants.BG_SURFACE_WIDTH_MEDIUM)
+                    .fillMaxHeight(Constants.BG_SURFACE_HEIGHT_SMALL)
                     .align(alignment),
                 contentScale = ContentScale.FillBounds,
-                alignment =alignment
+                alignment = alignment
 
             )
-        if(surface3 != null)
+        if (surface3 != null)
             Image(
                 painter = painterResource(surface3),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.4f)
+                    .fillMaxHeight(Constants.BG_SURFACE_HEIGHT)
                     .align(alignment),
                 contentScale = ContentScale.FillBounds,
                 alignment = alignment
             )
-        if(surface4 != null)
+        if (surface4 != null)
             Image(
                 painter = painterResource(surface4),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth(0.80f)
-                    .fillMaxHeight(0.4f)
+                    .fillMaxWidth(Constants.BG_SURFACE_WIDTH_SMALL)
+                    .fillMaxHeight(Constants.BG_SURFACE_HEIGHT)
                     .align(alignment),
                 contentScale = ContentScale.FillBounds,
                 alignment = alignment

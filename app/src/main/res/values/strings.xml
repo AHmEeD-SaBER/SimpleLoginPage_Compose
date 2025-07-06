@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">SimpleLoginPage</string>
+    <string name="logo">Logo</string>
+    <string name="menu">Menu</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="email_icon">Email Icon</string>
+    <string name="password">Password</string>
+    <string name="lock_icon">Lock Icon</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="show_password">Show Password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login_button">LOGIN</string>
+    <string name="loading">LOADING…</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="error_default">Error</string>
+    <string name="login_successful">Login successful</string>
+    <string name="login_failed_invalid">Login failed: Invalid credentials</string>
+    <string name="login_failed_with_error">Login failed: %1$s</string>
+    <string name="email_empty">Email cannot be empty</string>
+    <string name="email_invalid">Invalid email format</string>
+    <string name="password_empty">Password cannot be empty</string>
+    <string name="password_too_short">Password must be at least 6 characters</string>
 </resources>

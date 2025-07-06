@@ -8,11 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.sp
+import com.example.simpleloginpage.R
 import com.example.simpleloginpage.ui.theme.OrangeMain
+import com.example.simpleloginpage.ui.theme.Typography
+import com.example.simpleloginpage.util.Constants
 
 @Composable
 fun CustomTextField(
@@ -31,7 +33,7 @@ fun CustomTextField(
         onValueChange = onValueChange,
         label = { Text(label) },
         modifier = Modifier.fillMaxWidth(),
-        textStyle = TextStyle(fontSize = 20.sp, color = Color.Black),
+        textStyle = Typography.bodyMedium.copy(color = Color.Black),
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
@@ -56,9 +58,9 @@ fun CustomTextField(
     )
     if(isError) {
         Text(
-            text = errorMessage ?: "Error",
-            style = TextStyle(color = Color.Red, fontSize = 12.sp),
-            modifier = Modifier.scale(0.8f)
+            text = errorMessage ?: stringResource(R.string.error_default),
+            style = Typography.labelMedium.copy(color = Color.Red),
+            modifier = Modifier.scale(Constants.ICON_SCALE_SMALLER)
         )
     }
 }
