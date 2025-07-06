@@ -145,7 +145,7 @@ fun SignupPage(
             value = if (signupState.isLoading)
                 stringResource(R.string.loading)
             else
-                stringResource(R.string.sign_up),
+                stringResource(R.string.sign_up_cap),
             onCLick = {
                 viewModel.signup(
                     onSuccess = {}
