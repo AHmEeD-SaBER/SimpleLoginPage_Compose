@@ -19,11 +19,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SimpleLoginPageTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen()
-                }
-            }
+            LoginScreen()
+
+
         }
     }
 }

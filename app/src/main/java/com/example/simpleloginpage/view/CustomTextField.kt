@@ -50,7 +50,6 @@ fun CustomTextField(
             focusedTextColor = Color.Black,
             unfocusedTextColor = Color.Black,
             errorContainerColor = Color.Transparent,
-            errorTrailingIconColor = OrangeMain,
             errorLeadingIconColor = OrangeMain
         ),
         isError = isError,
