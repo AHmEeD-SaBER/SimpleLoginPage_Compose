@@ -1,4 +1,4 @@
-package com.example.simpleloginpage.view
+package com.example.simpleloginpage.view.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.ui.theme.OrangeMain
 import com.example.simpleloginpage.ui.theme.Typography
@@ -58,7 +59,7 @@ fun RememberMeRow(
         }
         Text(
             stringResource(R.string.forgot_password),
-            style = Typography.bodySmall,
+            style = Typography.bodyMedium,
             modifier = Modifier.clickable { onForgotPasswordClick() }
         )
     }

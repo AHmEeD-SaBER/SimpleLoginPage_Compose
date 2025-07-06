@@ -1,4 +1,4 @@
-package com.example.simpleloginpage.view
+package com.example.simpleloginpage.view.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text

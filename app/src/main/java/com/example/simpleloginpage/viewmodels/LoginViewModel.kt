@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application, private val userRepo: UserRepo): AndroidViewModel(application) {
+class LoginViewModel(application: Application, private val userRepo: UserRepo): AndroidViewModel(application) {
     private val _loginState = MutableStateFlow(LoginState())
     val loginState: StateFlow<LoginState> = _loginState.asStateFlow()
 

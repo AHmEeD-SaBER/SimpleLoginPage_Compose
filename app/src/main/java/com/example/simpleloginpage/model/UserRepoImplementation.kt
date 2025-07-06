@@ -14,11 +14,14 @@ class UserRepoImplementation : UserRepo {
         }
     }
 
-    override fun register(email: String, password: String): Boolean {
+    override fun signup(name: String, email: String, password: String, rememberMe: Boolean): Boolean {
         if (users.any { it.email == email }) {
             return false
         }
-        users.add(User(email, password))
+        users.add(User(email, password, name))
+        if (rememberMe) {
+            loggedInUser = users.last()
+        }
         return true
     }
 

@@ -3,7 +3,11 @@
     <string name="logo">Logo</string>
     <string name="menu">Menu</string>
     <string name="login">Login</string>
+    <string name="login_up">Login Up</string>
     <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="password_confirmation">Confirm Password</string>
+    <string name="name_icon">Name Icon</string>
     <string name="email_icon">Email Icon</string>
     <string name="password">Password</string>
     <string name="lock_icon">Lock Icon</string>
@@ -14,7 +18,10 @@
     <string name="login_button">LOGIN</string>
     <string name="loading">LOADING…</string>
     <string name="no_account">Don\'t have an account?</string>
+    <string name="sign_up_cap">SIGN UP</string>
     <string name="sign_up">Sign Up</string>
+    <string name="create_account">Create an account</string>
+    <string name="already_have_account">Already have an account?</string>
     <string name="error_default">Error</string>
     <string name="login_successful">Login successful</string>
     <string name="login_failed_invalid">Login failed: Invalid credentials</string>
@@ -23,4 +30,10 @@
     <string name="email_invalid">Invalid email format</string>
     <string name="password_empty">Password cannot be empty</string>
     <string name="password_too_short">Password must be at least 6 characters</string>
+    <string name="name_empty">Name cannot be empty</string>
+    <string name="password_confirmation_empty">Confirm password cannot be empty</string>
+    <string name="passwords_dont_match">Passwords do not match</string>
+    <string name="signup_successful">Signup successful</string>
+    <string name="signup_failed">Signup failed</string>
+    <string name="signup_failed_with_error">Signup failed: %1$s</string>
 </resources>
