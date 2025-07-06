@@ -73,7 +73,7 @@ class MainViewModel(application: Application, private val userRepo: UserRepo): A
         }
     }
 
-    fun login(onSuccess: () -> Unit, onError: (String) -> Unit) {
+    fun login(onSuccess: () -> Unit) {
         val isEmailValid = validateEmail()
         val isPasswordValid = validatePassword()
 
@@ -110,25 +110,6 @@ class MainViewModel(application: Application, private val userRepo: UserRepo): A
                     "Login failed: ${e.message}",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-        }
-    }
-
-    fun forgotPassword(onClick: () -> Unit, onError: (String) -> Unit) {
-        if (!validateEmail()) {
-            onError("Please enter a valid email address")
-            return
-        }
-
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                delay(1000)
-                _isLoading.value = false
-                onClick()
-            } catch (e: Exception) {
-                _isLoading.value = false
-                onError(e.message ?: "Unknown error occurred")
             }
         }
     }

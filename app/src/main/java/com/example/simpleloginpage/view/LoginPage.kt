@@ -114,18 +114,14 @@ fun LoginScreen(
                     RememberMe_Forgot_CustomRow(
                         rememberMe = rememberMe,
                         onRememberMeChange = { viewModel.toggleRememberMe() },
-                        onForgotPasswordClick = { viewModel.forgotPassword(
-                            onClick = {},
-                            onError = {}
-                        )}
+                        onForgotPasswordClick = {}
                     )
                     Spacer(modifier = Modifier.height(40.dp))
                     CustomBtn(
                         value = if (isLoading) "LOADING..." else "LOGIN",
                         onCLick = {
                             viewModel.login(
-                                onSuccess = {},
-                                onError = {}
+                                onSuccess = {}
                             )
                         },
                     )
