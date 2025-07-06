@@ -44,7 +44,7 @@ fun SignupPage(
     viewModel: SignupViewModel = viewModel(
         factory = SignupViewModelFactory(
             application = LocalContext.current.applicationContext as Application,
-            userRepo = UserRepoImplementation.getInstance()
+            userRepo = UserRepoImplementation
         )
     ),
     onNavigateToLogin: () -> Unit = {}

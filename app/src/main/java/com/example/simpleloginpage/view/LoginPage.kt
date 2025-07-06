@@ -40,7 +40,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory(
             application = LocalContext.current.applicationContext as Application,
-            userRepo = UserRepoImplementation.getInstance()
+            userRepo = UserRepoImplementation
         )
     ),
     onNavigateToSignup: () -> Unit = {}
