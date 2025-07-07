@@ -30,12 +30,10 @@ import com.example.simpleloginpage.view.composables.NavigationLine
 import com.example.simpleloginpage.view.composables.RememberMeRow
 import com.example.simpleloginpage.viewmodels.SignupViewModel
 import com.example.simpleloginpage.viewmodels.SignupViewModelFactory
-import android.app.Application
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import com.example.simpleloginpage.model.UserRepoImplementation
 
@@ -43,14 +41,12 @@ import com.example.simpleloginpage.model.UserRepoImplementation
 fun SignupScreen(
     viewModel: SignupViewModel = viewModel(
         factory = SignupViewModelFactory(
-            application = LocalContext.current.applicationContext as Application,
             userRepo = UserRepoImplementation
         )
     ),
-    onNavigateToLogin: () -> Unit = {}
+    onNavigateToLogin: () -> Unit = {},
 ) {
     val signupState by viewModel.signupState.collectAsState()
-
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start,
@@ -71,7 +67,7 @@ fun SignupScreen(
         CustomTextField(
             value = signupState.name,
             isError = signupState.nameError != null,
-            errorMessage = signupState.nameError,
+            errorMessage = signupState.nameError?.let { stringResource(it) },
             onValueChange = { viewModel.updateName(it) },
             label = stringResource(R.string.name),
             leadingIcon = {
@@ -85,7 +81,7 @@ fun SignupScreen(
         CustomTextField(
             value = signupState.email,
             isError = signupState.emailError != null,
-            errorMessage = signupState.emailError,
+            errorMessage = signupState.emailError?.let { stringResource(it) },
             onValueChange = { viewModel.updateEmail(it) },
             label = stringResource(R.string.email),
             leadingIcon = {
@@ -99,7 +95,7 @@ fun SignupScreen(
         CustomTextField(
             value = signupState.password,
             isError = signupState.passwordError != null,
-            errorMessage = signupState.passwordError,
+            errorMessage = signupState.passwordError?.let { stringResource(it) },
             onValueChange = { viewModel.updatePassword(it) },
             label = stringResource(R.string.password),
             leadingIcon = {
@@ -114,7 +110,7 @@ fun SignupScreen(
         CustomTextField(
             value = signupState.confirmPassword,
             isError = signupState.confirmPasswordError != null,
-            errorMessage = signupState.confirmPasswordError,
+            errorMessage = signupState.confirmPasswordError?.let { stringResource(it) },
             onValueChange = { viewModel.updateConfirmPassword(it) },
             label = stringResource(R.string.password_confirmation),
             leadingIcon = {

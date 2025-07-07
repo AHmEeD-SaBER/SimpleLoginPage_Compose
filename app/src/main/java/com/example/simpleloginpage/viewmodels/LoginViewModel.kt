@@ -1,9 +1,7 @@
 package com.example.simpleloginpage.viewmodels
 
-import android.app.Application
 import android.util.Patterns
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.model.UserRepo
@@ -13,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel(application: Application, private val userRepo: UserRepo): AndroidViewModel(application) {
+class LoginViewModel(private val userRepo: UserRepo): ViewModel() {
     private val _loginState = MutableStateFlow(LoginState())
     val loginState: StateFlow<LoginState> = _loginState.asStateFlow()
 
@@ -42,37 +40,54 @@ class LoginViewModel(application: Application, private val userRepo: UserRepo): 
     private fun validateEmail(): Boolean {
         val email = _loginState.value.email
         return if (email.isEmpty()) {
-            _loginState.value = _loginState.value.copy(
-                emailError = getApplication<Application>().getString(R.string.email_empty)
-            )
-            false
+            emailIsEmpty()
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _loginState.value = _loginState.value.copy(
-                emailError = getApplication<Application>().getString(R.string.email_invalid)
-            )
-            false
+            emailIsInvalid()
         } else {
-            _loginState.value = _loginState.value.copy(emailError = null)
-            true
+            emailIsValid()
         }
     }
 
     private fun validatePassword(): Boolean {
         val password = _loginState.value.password
         return if (password.isEmpty()) {
-            _loginState.value = _loginState.value.copy(
-                passwordError = getApplication<Application>().getString(R.string.password_empty)
-            )
-            false
+            passwordIsEmpty()
         } else if (password.length < 6) {
-            _loginState.value = _loginState.value.copy(
-                passwordError = getApplication<Application>().getString(R.string.password_too_short)
-            )
-            false
+            passwordNotMatchLength()
         } else {
-            _loginState.value = _loginState.value.copy(passwordError = null)
-            true
+            passwordIsValid()
         }
+    }
+
+    private fun emailIsEmpty(): Boolean {
+        setEmailError(R.string.email_empty)
+        return false
+    }
+
+    private fun emailIsInvalid(): Boolean {
+        setEmailError(R.string.email_invalid)
+        return false
+    }
+
+    private fun emailIsValid(): Boolean {
+        setEmailError(null)
+        return true
+    }
+
+    private fun setEmailError(errorRes: Int?) {
+        _loginState.value = _loginState.value.copy(emailError = errorRes)
+    }
+
+    private fun passwordNotMatchLength() : Boolean{
+        _loginState.value = _loginState.value.copy(
+            passwordError = R.string.password_too_short
+        )
+        return false
+    }
+
+    private fun passwordIsValid(): Boolean {
+        _loginState.value = _loginState.value.copy(passwordError = null)
+        return true
     }
 
     fun login(onSuccess: () -> Unit) {
@@ -92,31 +107,32 @@ class LoginViewModel(application: Application, private val userRepo: UserRepo): 
                         _loginState.value.password,
                         _loginState.value.rememberMe
                     )) {
-                    Toast.makeText(
-                        getApplication<Application>().applicationContext,
-                        getApplication<Application>().getString(R.string.login_successful),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    _loginState.value = _loginState.value.copy(
+                        toastMessageId = R.string.login_successful
+                    )
                     onSuccess()
                     clearForm()
                 }
                 else{
-                    Toast.makeText(
-                        getApplication<Application>().applicationContext,
-                        getApplication<Application>().getString(R.string.login_failed_invalid),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    _loginState.value = _loginState.value.copy(isLoading = false)
+                    _loginState.value = _loginState.value.copy(
+                        isLoading = false,
+                        toastMessageId = R.string.login_failed_invalid
+                    )
                 }
             } catch (e: Exception) {
-                _loginState.value = _loginState.value.copy(isLoading = false)
-                Toast.makeText(
-                    getApplication<Application>().applicationContext,
-                    getApplication<Application>().getString(R.string.login_failed_with_error, e.message),
-                    Toast.LENGTH_SHORT
-                ).show()
+                _loginState.value = _loginState.value.copy(
+                    isLoading = false,
+                    toastMessageId = R.string.login_failed_with_error
+                )
             }
         }
+    }
+
+    private fun passwordIsEmpty(): Boolean {
+        _loginState.value = _loginState.value.copy(
+            passwordError = R.string.password_empty
+        )
+        return false
     }
 
     private fun clearForm() {

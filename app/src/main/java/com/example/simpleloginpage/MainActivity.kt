@@ -49,12 +49,12 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = Routes.LOGIN) {
                     composable(Routes.LOGIN) {
                         LoginScreen(
-                            onNavigateToSignup = { navController.navigate("signup") }
+                            onNavigateToSignup = { navController.navigate(Routes.SIGNUP) }
                         )
                     }
                     composable(Routes.SIGNUP) {
                         SignupScreen(
-                            onNavigateToLogin = { navController.navigate("login") }
+                            onNavigateToLogin = { navController.popBackStack() }
                         )
                     }
                 }

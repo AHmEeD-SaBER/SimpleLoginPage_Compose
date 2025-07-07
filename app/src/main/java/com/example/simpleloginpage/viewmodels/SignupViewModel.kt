@@ -1,9 +1,7 @@
 package com.example.simpleloginpage.viewmodels
 
-import android.app.Application
 import android.util.Patterns
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.model.UserRepo
@@ -13,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SignupViewModel(application: Application, private val userRepo: UserRepo): AndroidViewModel(application) {
+class SignupViewModel(private val userRepo: UserRepo): ViewModel() {
     private val _signupState = MutableStateFlow(SignupState())
     val signupState: StateFlow<SignupState> = _signupState.asStateFlow()
 
@@ -53,49 +51,31 @@ class SignupViewModel(application: Application, private val userRepo: UserRepo):
     private fun validateName(): Boolean {
         val name = _signupState.value.name
         return if (name.isEmpty()) {
-            _signupState.value = _signupState.value.copy(
-                nameError = getApplication<Application>().getString(R.string.name_empty)
-            )
-            false
+            nameIsEmpty()
         } else {
-            _signupState.value = _signupState.value.copy(nameError = null)
-            true
+            nameIsValid()
         }
     }
 
     private fun validateEmail(): Boolean {
         val email = _signupState.value.email
         return if (email.isEmpty()) {
-            _signupState.value = _signupState.value.copy(
-                emailError = getApplication<Application>().getString(R.string.email_empty)
-            )
-            false
+            emailIsEmpty()
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _signupState.value = _signupState.value.copy(
-                emailError = getApplication<Application>().getString(R.string.email_invalid)
-            )
-            false
+            emailIsInvalid()
         } else {
-            _signupState.value = _signupState.value.copy(emailError = null)
-            true
+            emailIsValid()
         }
     }
 
     private fun validatePassword(): Boolean {
         val password = _signupState.value.password
         return if (password.isEmpty()) {
-            _signupState.value = _signupState.value.copy(
-                passwordError = getApplication<Application>().getString(R.string.password_empty)
-            )
-            false
+            passwordIsEmpty()
         } else if (password.length < 6) {
-            _signupState.value = _signupState.value.copy(
-                passwordError = getApplication<Application>().getString(R.string.password_too_short)
-            )
-            false
+            passwordTooShort()
         } else {
-            _signupState.value = _signupState.value.copy(passwordError = null)
-            true
+            passwordIsValid()
         }
     }
 
@@ -104,19 +84,83 @@ class SignupViewModel(application: Application, private val userRepo: UserRepo):
         val confirmPassword = _signupState.value.confirmPassword
 
         return if (confirmPassword.isEmpty()) {
-            _signupState.value = _signupState.value.copy(
-                confirmPasswordError = getApplication<Application>().getString(R.string.password_confirmation_empty)
-            )
-            false
+            confirmPasswordIsEmpty()
         } else if (password != confirmPassword) {
-            _signupState.value = _signupState.value.copy(
-                confirmPasswordError = getApplication<Application>().getString(R.string.passwords_dont_match)
-            )
-            false
+            passwordsDontMatch()
         } else {
-            _signupState.value = _signupState.value.copy(confirmPasswordError = null)
-            true
+            confirmPasswordIsValid()
         }
+    }
+
+    private fun nameIsEmpty(): Boolean {
+        setNameError(R.string.name_empty)
+        return false
+    }
+
+    private fun nameIsValid(): Boolean {
+        setNameError(null)
+        return true
+    }
+
+    private fun emailIsEmpty(): Boolean {
+        setEmailError(R.string.email_empty)
+        return false
+    }
+
+    private fun emailIsInvalid(): Boolean {
+        setEmailError(R.string.email_invalid)
+        return false
+    }
+
+    private fun emailIsValid(): Boolean {
+        setEmailError(null)
+        return true
+    }
+
+    private fun passwordIsEmpty(): Boolean {
+        setPasswordError(R.string.password_empty)
+        return false
+    }
+
+    private fun passwordTooShort(): Boolean {
+        setPasswordError(R.string.password_too_short)
+        return false
+    }
+
+    private fun passwordIsValid(): Boolean {
+        setPasswordError(null)
+        return true
+    }
+
+    private fun confirmPasswordIsEmpty(): Boolean {
+        setConfirmPasswordError(R.string.password_confirmation_empty)
+        return false
+    }
+
+    private fun passwordsDontMatch(): Boolean {
+        setConfirmPasswordError(R.string.passwords_dont_match)
+        return false
+    }
+
+    private fun confirmPasswordIsValid(): Boolean {
+        setConfirmPasswordError(null)
+        return true
+    }
+
+    private fun setNameError(errorRes: Int?) {
+        _signupState.value = _signupState.value.copy(nameError = errorRes)
+    }
+
+    private fun setEmailError(errorRes: Int?) {
+        _signupState.value = _signupState.value.copy(emailError = errorRes)
+    }
+
+    private fun setPasswordError(errorRes: Int?) {
+        _signupState.value = _signupState.value.copy(passwordError = errorRes)
+    }
+
+    private fun setConfirmPasswordError(errorRes: Int?) {
+        _signupState.value = _signupState.value.copy(confirmPasswordError = errorRes)
     }
 
     fun signup(onSuccess: () -> Unit) {
@@ -132,36 +176,30 @@ class SignupViewModel(application: Application, private val userRepo: UserRepo):
         viewModelScope.launch {
             _signupState.value = _signupState.value.copy(isLoading = true)
             try {
-                delay(1000) // Simulate network request
+                delay(1000)
                 if(userRepo.signup(
                     _signupState.value.name,
                     _signupState.value.email,
                     _signupState.value.password,
                     _signupState.value.rememberMe
                 )) {
-                    Toast.makeText(
-                        getApplication<Application>().applicationContext,
-                        getApplication<Application>().getString(R.string.signup_successful),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    _signupState.value = _signupState.value.copy(
+                        toastMessageId = R.string.signup_successful
+                    )
                     onSuccess()
                     clearForm()
                 }
                 else {
-                    Toast.makeText(
-                        getApplication<Application>().applicationContext,
-                        getApplication<Application>().getString(R.string.signup_failed),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    _signupState.value = _signupState.value.copy(isLoading = false)
+                    _signupState.value = _signupState.value.copy(
+                        isLoading = false,
+                        toastMessageId = R.string.signup_failed
+                    )
                 }
             } catch (e: Exception) {
-                _signupState.value = _signupState.value.copy(isLoading = false)
-                Toast.makeText(
-                    getApplication<Application>().applicationContext,
-                    getApplication<Application>().getString(R.string.signup_failed_with_error, e.message),
-                    Toast.LENGTH_SHORT
-                ).show()
+                _signupState.value = _signupState.value.copy(
+                    isLoading = false,
+                    toastMessageId = R.string.signup_failed_with_error
+                )
             }
         }
     }
@@ -169,4 +207,5 @@ class SignupViewModel(application: Application, private val userRepo: UserRepo):
     private fun clearForm() {
         _signupState.value = SignupState()
     }
+
 }

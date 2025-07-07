@@ -21,9 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.viewmodels.LoginViewModel
-import android.app.Application
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.example.simpleloginpage.model.UserRepoImplementation
@@ -39,11 +39,10 @@ import com.example.simpleloginpage.viewmodels.LoginViewModelFactory
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory(
-            application = LocalContext.current.applicationContext as Application,
             userRepo = UserRepoImplementation
         )
     ),
-    onNavigateToSignup: () -> Unit = {}
+    onNavigateToSignup: () -> Unit = {},
 ) {
     val loginState by viewModel.loginState.collectAsState()
 
@@ -57,7 +56,7 @@ fun LoginScreen(
         CustomTextField(
             value = loginState.email,
             isError = loginState.emailError != null,
-            errorMessage = loginState.emailError,
+            errorMessage = loginState.emailError?.let { stringResource(it) },
             onValueChange = { viewModel.updateEmail(it) },
             label = stringResource(R.string.email),
             leadingIcon = {
@@ -71,7 +70,7 @@ fun LoginScreen(
         CustomTextField(
             value = loginState.password,
             isError = loginState.passwordError != null,
-            errorMessage = loginState.passwordError,
+            errorMessage = loginState.passwordError?.let { stringResource(it) },
             onValueChange = { viewModel.updatePassword(it) },
             label = stringResource(R.string.password),
             leadingIcon = {

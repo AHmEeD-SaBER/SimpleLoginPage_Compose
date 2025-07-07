@@ -1,15 +1,18 @@
 package com.example.simpleloginpage.viewmodels
 
+import androidx.annotation.StringRes
+
 data class SignupState(
     val name: String = "",
     val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",
+    @StringRes val nameError: Int? = null,
+    @StringRes val emailError: Int? = null,
+    @StringRes val passwordError: Int? = null,
+    @StringRes val confirmPasswordError: Int? = null,
     val isPasswordVisible: Boolean = false,
     val rememberMe: Boolean = false,
-    val nameError: String? = null,
-    val emailError: String? = null,
-    val passwordError: String? = null,
-    val confirmPasswordError: String? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    @StringRes val toastMessageId: Int? = null
 )
