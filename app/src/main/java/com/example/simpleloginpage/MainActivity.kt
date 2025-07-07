@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
@@ -17,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.simpleloginpage.util.Constants
 import com.example.simpleloginpage.navigation.Routes
 import com.example.simpleloginpage.view.LoginScreen
-import com.example.simpleloginpage.view.SignupPage
+import com.example.simpleloginpage.view.SignupScreen
 import com.example.simpleloginpage.view.composables.BackgroundDecoration
 import com.example.simpleloginpage.view.composables.CustomAppBar
 
@@ -54,7 +53,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Routes.SIGNUP) {
-                        SignupPage(
+                        SignupScreen(
                             onNavigateToLogin = { navController.navigate("login") }
                         )
                     }

@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.util.Constants
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomAppBar(

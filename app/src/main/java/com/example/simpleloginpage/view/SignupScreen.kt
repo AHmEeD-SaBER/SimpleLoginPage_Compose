@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.example.simpleloginpage.model.UserRepoImplementation
 
 @Composable
-fun SignupPage(
+fun SignupScreen(
     viewModel: SignupViewModel = viewModel(
         factory = SignupViewModelFactory(
             application = LocalContext.current.applicationContext as Application,
@@ -51,9 +51,16 @@ fun SignupPage(
 ) {
     val signupState by viewModel.signupState.collectAsState()
 
-    Column (verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxSize().offset( y =
-        dimensionResource(R.dimen.content_margins)).padding(
-        dimensionResource(R.dimen.content_padding))) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                horizontal = dimensionResource(R.dimen.content_padding),
+            )
+            .offset(y = dimensionResource(R.dimen.content_padding_vertical))
+    ) {
         Text(
             stringResource(R.string.create_account),
             style = Typography.titleLarge.copy(
