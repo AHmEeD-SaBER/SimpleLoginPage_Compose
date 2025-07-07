@@ -6,14 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.model.UserRepo
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val userRepo: UserRepo): ViewModel() {
     private val _loginState = MutableStateFlow(LoginState())
     val loginState: StateFlow<LoginState> = _loginState.asStateFlow()
+
+    private val _toastEvent = MutableSharedFlow<Int>()
+    val toastEvent: SharedFlow<Int> = _toastEvent.asSharedFlow()
 
     fun updateEmail(newEmail: String) {
         _loginState.value = _loginState.value.copy(email = newEmail)
@@ -107,23 +113,17 @@ class LoginViewModel(private val userRepo: UserRepo): ViewModel() {
                         _loginState.value.password,
                         _loginState.value.rememberMe
                     )) {
-                    _loginState.value = _loginState.value.copy(
-                        toastMessageId = R.string.login_successful
-                    )
+                    _toastEvent.emit(R.string.login_successful)
                     onSuccess()
                     clearForm()
                 }
                 else{
-                    _loginState.value = _loginState.value.copy(
-                        isLoading = false,
-                        toastMessageId = R.string.login_failed_invalid
-                    )
+                    _loginState.value = _loginState.value.copy(isLoading = false)
+                    _toastEvent.emit(R.string.login_failed_invalid)
                 }
             } catch (e: Exception) {
-                _loginState.value = _loginState.value.copy(
-                    isLoading = false,
-                    toastMessageId = R.string.login_failed_with_error
-                )
+                _loginState.value = _loginState.value.copy(isLoading = false)
+                _toastEvent.emit(R.string.login_failed_with_error)
             }
         }
     }

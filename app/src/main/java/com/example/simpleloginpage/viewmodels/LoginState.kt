@@ -9,6 +9,5 @@ data class LoginState(
     @StringRes val passwordError: Int? = null,
     val isPasswordVisible: Boolean = false,
     val rememberMe: Boolean = false,
-    val isLoading: Boolean = false,
-    @StringRes val toastMessageId: Int? = null
+    val isLoading: Boolean = false
 )

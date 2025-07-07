@@ -6,14 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.model.UserRepo
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SignupViewModel(private val userRepo: UserRepo): ViewModel() {
     private val _signupState = MutableStateFlow(SignupState())
     val signupState: StateFlow<SignupState> = _signupState.asStateFlow()
+
+    private val _toastEvent = MutableSharedFlow<Int>()
+    val toastEvent: SharedFlow<Int> = _toastEvent.asSharedFlow()
 
     fun updateName(newName: String) {
         _signupState.value = _signupState.value.copy(name = newName)
@@ -183,23 +189,17 @@ class SignupViewModel(private val userRepo: UserRepo): ViewModel() {
                     _signupState.value.password,
                     _signupState.value.rememberMe
                 )) {
-                    _signupState.value = _signupState.value.copy(
-                        toastMessageId = R.string.signup_successful
-                    )
+                    _toastEvent.emit(R.string.signup_successful)
                     onSuccess()
                     clearForm()
                 }
                 else {
-                    _signupState.value = _signupState.value.copy(
-                        isLoading = false,
-                        toastMessageId = R.string.signup_failed
-                    )
+                    _signupState.value = _signupState.value.copy(isLoading = false)
+                    _toastEvent.emit(R.string.signup_failed)
                 }
             } catch (e: Exception) {
-                _signupState.value = _signupState.value.copy(
-                    isLoading = false,
-                    toastMessageId = R.string.signup_failed_with_error
-                )
+                _signupState.value = _signupState.value.copy(isLoading = false)
+                _toastEvent.emit(R.string.signup_failed_with_error)
             }
         }
     }

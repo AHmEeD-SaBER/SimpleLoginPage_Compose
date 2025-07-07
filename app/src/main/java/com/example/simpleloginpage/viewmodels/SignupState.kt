@@ -13,6 +13,5 @@ data class SignupState(
     @StringRes val confirmPasswordError: Int? = null,
     val isPasswordVisible: Boolean = false,
     val rememberMe: Boolean = false,
-    val isLoading: Boolean = false,
-    @StringRes val toastMessageId: Int? = null
+    val isLoading: Boolean = false
 )

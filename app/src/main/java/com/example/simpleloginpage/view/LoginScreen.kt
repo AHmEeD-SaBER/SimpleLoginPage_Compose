@@ -23,9 +23,10 @@ import com.example.simpleloginpage.R
 import com.example.simpleloginpage.viewmodels.LoginViewModel
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import android.widget.Toast
+import androidx.compose.runtime.LaunchedEffect
 import com.example.simpleloginpage.model.UserRepoImplementation
 import com.example.simpleloginpage.ui.theme.Typography
 import com.example.simpleloginpage.util.Constants
@@ -45,6 +46,16 @@ fun LoginScreen(
     onNavigateToSignup: () -> Unit = {},
 ) {
     val loginState by viewModel.loginState.collectAsState()
+    val context = LocalContext.current
+    LaunchedEffect(key1 = Unit) {
+        viewModel.toastEvent.collect { messageResId ->
+            Toast.makeText(
+                context,
+                context.getString(messageResId),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     Column (verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxSize().padding(
         dimensionResource(R.dimen.content_padding))){
