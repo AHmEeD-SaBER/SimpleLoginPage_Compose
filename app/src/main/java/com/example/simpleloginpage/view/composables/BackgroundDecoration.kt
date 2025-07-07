@@ -14,17 +14,17 @@ import com.example.simpleloginpage.util.Constants
 
 @Composable
 fun BackgroundDecoration(
-    surface1: Int? = null,
-    surface2: Int? = null,
-    surface3: Int? = null,
-    surface4: Int? = null,
+    baseSurface: Int? = null,
+    topSurface: Int? = null,
+    darkenSurface: Int? = null,
+    topDarkenSurface: Int? = null,
     maxHeight: Float = Constants.BG_LARGE_HEIGHT,
     alignment: Alignment
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        if (surface1 != null)
+        if (baseSurface != null)
             Image(
-                painter = painterResource(surface1),
+                painter = painterResource(baseSurface),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth(Constants.BG_SURFACE_WIDTH_LARGE)
@@ -33,9 +33,9 @@ fun BackgroundDecoration(
                 contentScale = ContentScale.FillBounds,
                 alignment = alignment
             )
-        if (surface2 != null)
+        if (topSurface != null)
             Image(
-                painter = painterResource(surface2),
+                painter = painterResource(topSurface),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth(Constants.BG_SURFACE_WIDTH_MEDIUM)
@@ -45,9 +45,9 @@ fun BackgroundDecoration(
                 alignment = alignment
 
             )
-        if (surface3 != null)
+        if (darkenSurface != null)
             Image(
-                painter = painterResource(surface3),
+                painter = painterResource(darkenSurface),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -56,9 +56,9 @@ fun BackgroundDecoration(
                 contentScale = ContentScale.FillBounds,
                 alignment = alignment
             )
-        if (surface4 != null)
+        if (topDarkenSurface != null)
             Image(
-                painter = painterResource(surface4),
+                painter = painterResource(topDarkenSurface),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth(Constants.BG_SURFACE_WIDTH_SMALL)

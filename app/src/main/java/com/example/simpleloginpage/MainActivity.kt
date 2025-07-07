@@ -28,10 +28,10 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             Box {
                 BackgroundDecoration(
-                    surface1 = R.drawable.bot_surface,
-                    surface2 = R.drawable.top_surface,
-                    surface3 = R.drawable.darken_surface,
-                    surface4 = R.drawable.top_darken_surface,
+                    baseSurface = R.drawable.bot_surface,
+                    topSurface = R.drawable.top_surface,
+                    darkenSurface = R.drawable.darken_surface,
+                    topDarkenSurface = R.drawable.top_darken_surface,
                     alignment = Alignment.TopStart
                 )
                 CustomAppBar(
@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 BackgroundDecoration(
-                    surface1 = R.drawable.bottom_bot_surface,
+                    baseSurface = R.drawable.bottom_bot_surface,
                     maxHeight = Constants.BG_BOTTOM_SURFACE_HEIGHT,
                     alignment = Alignment.BottomEnd)
             }
