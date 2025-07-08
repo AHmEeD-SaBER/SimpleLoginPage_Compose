@@ -47,7 +47,7 @@ fun LoginScreen(
 ) {
     val loginState by viewModel.loginState.collectAsState()
     val context = LocalContext.current
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(viewModel.toastEvent) {
         viewModel.toastEvent.collect { messageResId ->
             Toast.makeText(
                 context,

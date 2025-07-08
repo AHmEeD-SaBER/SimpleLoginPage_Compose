@@ -12,5 +12,6 @@ object Constants {
     const val BG_SURFACE_HEIGHT_SMALL = 0.35f
     const val BG_LARGE_HEIGHT = 0.4f
     const val BG_BOTTOM_SURFACE_HEIGHT = 0.64f
+    const val PASSWORD_MIN_LENGTH = 6
 }
 

@@ -52,7 +52,7 @@ fun SignupScreen(
 ) {
     val signupState by viewModel.signupState.collectAsState()
     val context = LocalContext.current
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(viewModel.toastEvent) {
         viewModel.toastEvent.collectLatest { messageResId ->
             Toast.makeText(
                 context,

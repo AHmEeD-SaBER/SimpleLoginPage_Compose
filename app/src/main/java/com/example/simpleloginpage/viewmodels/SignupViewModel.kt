@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpleloginpage.R
 import com.example.simpleloginpage.model.UserRepo
+import com.example.simpleloginpage.util.Constants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,7 +79,7 @@ class SignupViewModel(private val userRepo: UserRepo): ViewModel() {
         val password = _signupState.value.password
         return if (password.isEmpty()) {
             passwordIsEmpty()
-        } else if (password.length < 6) {
+        } else if (password.length < Constants.PASSWORD_MIN_LENGTH) {
             passwordTooShort()
         } else {
             passwordIsValid()
